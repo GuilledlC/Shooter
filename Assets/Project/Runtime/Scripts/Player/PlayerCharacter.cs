@@ -55,13 +55,15 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 	[SerializeField] private float diveSpeed = 24f;
 	[SerializeField] private float diveTime = 0.3f;
 	[SerializeField] private float diveStaminaCost = 0.2f;
+	[SerializeField] private float diveGravityMultiplier = 0.7f;
+	[SerializeField] private float diveJumpNegateMultiplier = 0.4f;
 	[Space]
 	[SerializeField] private float jumpSpeed = 20f;
 	[SerializeField] private float coyoteTime = 0.2f;
 	[SerializeField] private float jumpStaminaCost = 0.3f;
-	[Range(0f, 1f)]
 	[SerializeField] private float jumpSustainGravityMultiplier = 0.55f;
 	[SerializeField] private float gravity = -90f;
+	[SerializeField] private float terminalFallSpeed = -50f;
 	[Space]
 	[SerializeField] private float standHeight = 2f;
 	[SerializeField] private float crouchHeight = 1f;
@@ -92,9 +94,6 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 	
 	private Collider[] _uncrouchOverlapResults;
 	
-	//REDO
-	Quaternion normalRotation;
-	
 	public void Initialize() {
 		_state.Stance = Stance.Stand;
 		_state.Speed = 0;
@@ -105,7 +104,6 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 		_currentStamina = maxStamina;
 		
 		motor.CharacterController = this;
-		normalRotation = root.transform.rotation;
 	}
 
 	//Since this method is called every frame by the Player, and the KinematicCharacterController methods
@@ -155,15 +153,6 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 			root.localScale,
 			rootTargetScale,
 			1f - Mathf.Exp(-crouchHeightResponse * deltaTime));
-
-		//REDO
-		/*if (_state.Stance is Stance.Dive) {
-			Vector3 rotateNormal = Vector3.Cross(motor.CharacterUp, motor.CharacterForward);
-			root.transform.rotation = Quaternion.AngleAxis(60, rotateNormal) * normalRotation;
-		}
-		else {
-			root.transform.rotation = normalRotation;
-		}*/
 	}
 
 	public void UpdateRotation(ref Quaternion currentRotation, float deltaTime) {
@@ -322,18 +311,11 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 					var currentForwardSpeed = Vector3.Dot(currentVelocity, motor.CharacterForward);
 					var targetForwardSpeed = Mathf.Max(currentForwardSpeed, diveSpeed);
 					//Add the difference
-					//currentVelocity += motor.CharacterForward * (targetForwardSpeed - currentForwardSpeed);
+					currentVelocity += motor.CharacterForward * (targetForwardSpeed - currentForwardSpeed);
 					
-					//REDOOOOOOOOO
-					
-					//Negate jumping's vertical speed
+					//Negate some of the jump's vertical speed
 					var currentVerticalSpeed = Vector3.Dot(currentVelocity, motor.CharacterUp);
-					currentVelocity -= motor.CharacterUp * (currentVerticalSpeed * 0.8f);
-
-					//Refocus vertical speed
-					Vector3 rotateNormal = Vector3.Cross(motor.CharacterUp, motor.CharacterForward);
-					Vector3 newVelocity = Quaternion.AngleAxis(30, rotateNormal) * motor.CharacterUp * (currentVerticalSpeed * 0.8f);
-					currentVelocity += newVelocity;
+					currentVelocity -= motor.CharacterUp * (currentVerticalSpeed * diveJumpNegateMultiplier);
 				}
 			}
 			
@@ -384,8 +366,17 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 			
 			if (_requestedSustainedJump && verticalSpeed > 0)
 				effectiveGravity *= jumpSustainGravityMultiplier;
+			else if (_state.Stance is Stance.Dive)
+				effectiveGravity *= diveGravityMultiplier;
 			
 			currentVelocity += motor.CharacterUp * (effectiveGravity * deltaTime);
+			
+			//Clamp to terminal velocity
+			verticalSpeed = Vector3.Dot(currentVelocity, motor.CharacterUp);
+			if (verticalSpeed < terminalFallSpeed) {
+				currentVelocity -= motor.CharacterUp * verticalSpeed;
+				currentVelocity += motor.CharacterUp * terminalFallSpeed;
+			}
 		}
 		
 		//Jumping
@@ -424,7 +415,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 		_currentStamina = Mathf.Clamp(_currentStamina, 0f, maxStamina);
 		
 		//Update character state
-		_state.Speed = Vector3.ProjectOnPlane(currentVelocity, motor.CharacterUp).magnitude;
+		_state.Speed = currentVelocity.magnitude; //Vector3.ProjectOnPlane(currentVelocity, motor.CharacterUp).magnitude;
 		_state.Stamina = _currentStamina;
 
 	}

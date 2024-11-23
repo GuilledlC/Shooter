@@ -1076,6 +1076,56 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &812040599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 812040601}
+  - component: {fileID: 812040600}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &812040600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812040599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b4f499d65c64fa8beecaad326fe1d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponName: 
+  weaponDescription: 
+  weaponSlot: 0
+  weaponIcon: {fileID: 0}
+  crosshair: {fileID: 0}
+  weaponRoot: {fileID: 0}
+--- !u!4 &812040601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812040599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.362946, y: -1.7938247, z: 0.051728368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &831671931
 Mesh:
   m_ObjectHideFlags: 0
@@ -2351,6 +2401,65 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1972619121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1972619123}
+  - component: {fileID: 1972619122}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1972619122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972619121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 971578fd866f463992bb662c19ea3ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponName: 
+  weaponDescription: 
+  weaponSlot: 1
+  weaponIcon: {fileID: 0}
+  crosshair: {fileID: 0}
+  weaponRoot: {fileID: 0}
+  muzzle: {fileID: 0}
+  shootType: 0
+  shell: {fileID: 0}
+  projectilesPerShot: 0
+  spreadAngle: 0
+  maxMags: 0
+  maxSpareMags: 0
+  startMags: 0
+  bulletsPerMag: 0
+--- !u!4 &1972619123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972619121}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.362946, y: -1.7938247, z: 0.051728368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2137262914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2461,33 +2570,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8951927869198173646, guid: 241e5e21736d73c4abe36c0a6a98797a,
         type: 3}
-      propertyPath: gravity
-      value: -70
+      propertyPath: walkSpeed
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8951927869198173646, guid: 241e5e21736d73c4abe36c0a6a98797a,
         type: 3}
-      propertyPath: diveTime
-      value: 0.25
+      propertyPath: maxStamina
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8951927869198173646, guid: 241e5e21736d73c4abe36c0a6a98797a,
         type: 3}
-      propertyPath: diveSpeed
-      value: 25
+      propertyPath: crouchSpeed
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8951927869198173646, guid: 241e5e21736d73c4abe36c0a6a98797a,
         type: 3}
-      propertyPath: jumpSpeed
-      value: 16
+      propertyPath: sprintSpeed
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8951927869198173646, guid: 241e5e21736d73c4abe36c0a6a98797a,
         type: 3}
-      propertyPath: diveMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8951927869198173646, guid: 241e5e21736d73c4abe36c0a6a98797a,
-        type: 3}
-      propertyPath: jumpSustainGravityMultiplier
-      value: 0.55
+      propertyPath: diveGravityMultiplier
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2502,3 +2606,5 @@ SceneRoots:
   - {fileID: 1658172469}
   - {fileID: 2137262915}
   - {fileID: 3242550923827484495}
+  - {fileID: 1972619123}
+  - {fileID: 812040601}
