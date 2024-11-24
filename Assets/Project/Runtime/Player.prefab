@@ -912,12 +912,16 @@ MonoBehaviour:
   walkResponse: 20
   crouchResponse: 15
   sprintResponse: 25
-  airSpeed: 8
+  airSpeed: 6
   airAcceleration: 70
-  jumpSpeed: 12
+  diveSpeed: 27.5
+  diveTime: 0.25
+  diveStaminaCost: 0.2
+  jumpSpeed: 16
   coyoteTime: 0.2
   jumpStaminaCost: 0.3
   jumpSustainGravityMultiplier: 0.55
+  diveGravityMultiplier: 0.7
   gravity: -70
   standHeight: 2
   crouchHeight: 1
