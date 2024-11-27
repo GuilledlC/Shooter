@@ -39,9 +39,9 @@ public class OldPlayerMovement : MonoBehaviour {
 	    SpeedControl();
 
 	    if (grounded)
-		    rigidbody.drag = groundDrag;
+		    rigidbody.linearDamping = groundDrag;
 	    else
-		    rigidbody.drag = 0;
+		    rigidbody.linearDamping = 0;
 	}
 
 	void FixedUpdate() {
@@ -70,16 +70,16 @@ public class OldPlayerMovement : MonoBehaviour {
     }
 
     private void SpeedControl() {
-	    Vector3 flatVel = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+	    Vector3 flatVel = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
 
 	    if (flatVel.magnitude > moveSpeed) {
 		    Vector3 limitedVel = flatVel.normalized * moveSpeed;
-		    rigidbody.velocity = new Vector3(limitedVel.x, rigidbody.velocity.y, limitedVel.z);
+		    rigidbody.linearVelocity = new Vector3(limitedVel.x, rigidbody.linearVelocity.y, limitedVel.z);
 	    }
     }
 
     private void Jump() {
-	    rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+	    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
 	    
 	    rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }

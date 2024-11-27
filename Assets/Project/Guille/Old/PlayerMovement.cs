@@ -51,7 +51,7 @@ namespace net.GuilledlC.Shooter {
 			DragControl();
 			//SpeedControl();
 
-			Vector3 flatVel = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+			Vector3 flatVel = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
 			text_speed.SetText("Speed: " + flatVel.magnitude);
 
 		}
@@ -59,17 +59,17 @@ namespace net.GuilledlC.Shooter {
 		void FixedUpdate() {
 			
 			MovePlayer();
-			text_speed.SetText("Speed: " + Mathf.Round(new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z).magnitude * 100));
+			text_speed.SetText("Speed: " + Mathf.Round(new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z).magnitude * 100));
 
 		}
 
 		private void SpeedControl() {
-			Vector3 flatVel = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+			Vector3 flatVel = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
 
 			// limit velocity if needed
 			if(flatVel.magnitude > Speed) {
 				Vector3 limitedVel = flatVel.normalized * Speed;
-				rigidbody.velocity = new Vector3(limitedVel.x, rigidbody.velocity.y, limitedVel.z);
+				rigidbody.linearVelocity = new Vector3(limitedVel.x, rigidbody.linearVelocity.y, limitedVel.z);
 			}
 		}
 		
@@ -94,9 +94,9 @@ namespace net.GuilledlC.Shooter {
 		private void DragControl() {
 			
 			if (grounded)
-				rigidbody.drag = GroundDrag;
+				rigidbody.linearDamping = GroundDrag;
 			else
-				rigidbody.drag = 0;
+				rigidbody.linearDamping = 0;
 		}
 		
 		private void MovePlayer() {
@@ -115,7 +115,7 @@ namespace net.GuilledlC.Shooter {
 		private void Jump() {
 			
 			//Reset vertical velocity
-			rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.y);
+			rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.y);
 			
 			rigidbody.AddForce(transform.up * JumpForce, ForceMode.Impulse);
 			readyToJump = false;
