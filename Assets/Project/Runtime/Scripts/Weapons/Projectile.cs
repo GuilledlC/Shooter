@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-public class Projectile {
+public class Projectile : MonoBehaviour {
 	
 }

@@ -15,7 +15,6 @@ public abstract class Weapon : MonoBehaviour {
 	[SerializeField] private string weaponName;
 	[SerializeField] private string weaponDescription;
 	[SerializeField] private WeaponSlot weaponSlot;
-	
 
 	[Header("Visual")]
 	[SerializeField] private Sprite weaponIcon;
