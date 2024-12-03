@@ -508,7 +508,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4453599990036714753}
   - component: {fileID: 3812394378438408869}
+  - component: {fileID: 3587453831658435569}
   - component: {fileID: 3350694727582289593}
+  - component: {fileID: 562184551559480486}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -554,6 +556,21 @@ MonoBehaviour:
   playerCamera: {fileID: 419605954171583096}
   playerUI: {fileID: 3621407846247266795}
   cameraSpring: {fileID: 4939665145801885738}
+--- !u!114 &3587453831658435569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944125511904043606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e8271f83800cc4c9a57a92ee917cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3350694727582289593}
+  _networkObjectCache: {fileID: 0}
 --- !u!114 &3350694727582289593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +621,21 @@ MonoBehaviour:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     LocalScale: {x: 0, y: 0, z: 0}
+--- !u!114 &562184551559480486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944125511904043606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _overrideType: 3
+  _updateHostVisibility: 1
+  _observerConditions: []
 --- !u!1 &3180273631972041093
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 5170504912960113237}
+  playerNetwork: {fileID: 3587453831658435569}
   root: {fileID: 147912179284397229}
   cameraTarget: {fileID: 7402759749151196064}
   maxStamina: 3
@@ -858,7 +891,7 @@ MonoBehaviour:
   terminalFallSpeed: -50
   standHeight: 2
   crouchHeight: 1
-  crouchHeightResponse: 15
+  crouchHeightResponse: 30
   standCameraHeight: 0.9
   crouchCameraHeight: 0.7
 --- !u!114 &4811764699786363002

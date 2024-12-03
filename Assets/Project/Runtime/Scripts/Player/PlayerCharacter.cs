@@ -32,6 +32,7 @@ public struct CharacterInput {
 public class PlayerCharacter : MonoBehaviour, ICharacterController {
 
 	[SerializeField] private KinematicCharacterMotor motor;
+	[SerializeField] private PlayerNetwork playerNetwork;
 	[SerializeField] private Transform root;
 	[SerializeField] private Transform cameraTarget;
 	[Space]
@@ -135,6 +136,15 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 		_requestedSprint = input.Sprint;
 	}
 
+	public void UpdateCapsuleHeight(Vector3 cameraTargetHeight, Vector3 rootTargetScale) {
+		cameraTarget.localPosition = cameraTargetHeight;
+		root.localScale = rootTargetScale;
+	}
+
+	public void UpdateMotorHeight(float radius, float height, float yOffset) {
+		motor.SetCapsuleDimensions(radius, height, yOffset);
+	}
+	
 	public void UpdateBody(float deltaTime) {
 		
 		var currentHeight = motor.Capsule.height;
@@ -145,14 +155,17 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 
 		var rootTargetScale = new Vector3(1f, normalizedHeight, 1f);
 
-		cameraTarget.localPosition = Vector3.Lerp(
+		var newCameraScale = Vector3.Lerp(
 			cameraTarget.localPosition,
 			new Vector3(0f, cameraTargetHeight, 0f),
 			1f - Mathf.Exp(-crouchHeightResponse * deltaTime));
-		root.localScale = Vector3.Lerp(
+		var newRootScale = Vector3.Lerp(
 			root.localScale,
 			rootTargetScale,
 			1f - Mathf.Exp(-crouchHeightResponse * deltaTime));
+
+		UpdateCapsuleHeight(newCameraScale, newRootScale);
+		playerNetwork.ChangeCapsuleHeightServer(this.gameObject, newCameraScale, newRootScale);
 	}
 
 	public void UpdateRotation(ref Quaternion currentRotation, float deltaTime) {
@@ -429,7 +442,12 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 			//Crouching
 			if (_requestedCrouch) {
 				_state.Stance = Stance.Crouch;
-				motor.SetCapsuleDimensions(
+				UpdateMotorHeight(
+					radius: motor.Capsule.radius,
+					height: crouchHeight,
+					yOffset: crouchHeight * 0.5f);
+				playerNetwork.ChangeMotorHeightServer(
+					player: gameObject,
 					radius: motor.Capsule.radius,
 					height: crouchHeight,
 					yOffset: crouchHeight * 0.5f);
@@ -450,7 +468,12 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 		//									   v diving you get stuck in a crouch height while your stance is Stand
 		if ((_state.Stance is Stance.Crouch || motor.Capsule.height == crouchHeight) && !_requestedCrouch) {
 			//Stand up to check if colliding
-			motor.SetCapsuleDimensions(
+			UpdateMotorHeight(
+				radius: motor.Capsule.radius,
+				height: standHeight,
+				yOffset: standHeight * 0.5f);
+			playerNetwork.ChangeMotorHeightServer(
+				player: gameObject,
 				radius: motor.Capsule.radius,
 				height: standHeight,
 				yOffset: standHeight * 0.5f);
@@ -462,7 +485,12 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 			var mask = motor.CollidableLayers;
 			if (motor.CharacterOverlap(pos, rot, _uncrouchOverlapResults, mask, QueryTriggerInteraction.Ignore) > 0) {
 				//Crouch again
-				motor.SetCapsuleDimensions(
+				UpdateMotorHeight(
+					radius: motor.Capsule.radius,
+					height: crouchHeight,
+					yOffset: crouchHeight * 0.5f);
+				playerNetwork.ChangeMotorHeightServer(
+					player: gameObject,
 					radius: motor.Capsule.radius,
 					height: crouchHeight,
 					yOffset: crouchHeight * 0.5f);
