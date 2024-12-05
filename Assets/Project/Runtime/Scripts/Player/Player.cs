@@ -9,6 +9,7 @@ public class Player : NetworkBehaviour {
 	[SerializeField] private PlayerCharacter playerCharacter;
 	[SerializeField] private PlayerCamera playerCamera;
 	[SerializeField] private PlayerUI playerUI;
+	[SerializeField] private PlayerItemController playerItemController;
 	[Space]
 	[SerializeField] private CameraSpring cameraSpring;
 
@@ -31,6 +32,7 @@ public class Player : NetworkBehaviour {
 	    
 		playerCharacter.Initialize();
 		playerCamera.Initialize(playerCharacter.GetCameraTarget());
+		playerItemController.Initialize(mainCamera.transform);
         
 		cameraSpring.Initialize();
 	}
@@ -69,8 +71,8 @@ public class Player : NetworkBehaviour {
 		    var cameraInput = new CameraInput { Look = input.Look.ReadValue<Vector2>() };
 		    playerCamera.UpdateRotation(cameraInput);
 
-		    //Get character input and update it
-		    var characterInput = new CharacterInput {
+		    //Get character movement input and update it
+		    var characterMovementInput = new CharacterMovementInput {
 			    Rotation = playerCamera.transform.rotation,
 			    Move = input.Move.ReadValue<Vector2>(),
 			    Jump = input.Jump.WasPressedThisFrame(),
@@ -78,9 +80,19 @@ public class Player : NetworkBehaviour {
 			    Crouch = input.Crouch.IsPressed() ? CrouchInput.Hold : CrouchInput.None,
 			    Sprint = input.Sprint.IsPressed()
 		    };
-		    playerCharacter.UpdateInput(characterInput);
+		    
+		    playerCharacter.UpdateInput(characterMovementInput);
 		    playerCharacter.UpdateBody(deltaTime);
 		    playerUI.UpdateUI(playerCharacter);
+		    
+		    //Get character item input and update it
+		    var characterItemInput = new CharacterItemInput {
+			    Rotation = playerCamera.transform.rotation,
+			    Pickup = input.Pickup.WasPressedThisFrame(),
+			    Drop = input.Drop.WasPressedThisFrame()
+		    };
+		    
+		    playerItemController.UpdateInput(characterItemInput);
 	    }
     }
 

@@ -20,7 +20,7 @@ public struct CharacterState {
 	public float Stamina;
 }
 
-public struct CharacterInput {
+public struct CharacterMovementInput {
 	public Quaternion Rotation;
 	public Vector2 Move;
 	public bool Jump;
@@ -111,29 +111,29 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 	//(UpdateRotation, UpdateVelocity) are called every physics tick by the character motor, we are going,
 	//and this method could get called more than once between physics ticks or not at all, we are going to
 	//queue requests for the character motor to use in its next physics update
-	public void UpdateInput(CharacterInput input) {
+	public void UpdateInput(CharacterMovementInput movementInput) {
 		//Rotation input
-		_requestedRotation = input.Rotation;
+		_requestedRotation = movementInput.Rotation;
 		//Takes the 2D input vector and transforms it into a 3D vector onto the XZ plane
-		_requestedMovement = new Vector3(input.Move.x, 0, input.Move.y);
+		_requestedMovement = new Vector3(movementInput.Move.x, 0, movementInput.Move.y);
 		//Normalizes it so diagonal movement is the same as any movement
 		_requestedMovement = Vector3.ClampMagnitude(_requestedMovement, 1);
 		//Orient it so it's relative to the direction the player is facing
-		_requestedMovement = input.Rotation * _requestedMovement;
+		_requestedMovement = movementInput.Rotation * _requestedMovement;
 
 		//Jump input
 		var wasRequestingJump = _requestedJump;				//Previous jump request
-		_requestedJump = _requestedJump || input.Jump;		//Current jump request
+		_requestedJump = _requestedJump || movementInput.Jump;		//Current jump request
 		if (_requestedJump && !wasRequestingJump)
 			_timeSinceJumpRequest = 0f;						//Reset the jump timer
 		
-		_requestedSustainedJump = input.JumpSustain;
+		_requestedSustainedJump = movementInput.JumpSustain;
 		
 		//Crouch input
-		_requestedCrouch = input.Crouch is CrouchInput.Hold;
+		_requestedCrouch = movementInput.Crouch is CrouchInput.Hold;
 		
 		//Sprint input
-		_requestedSprint = input.Sprint;
+		_requestedSprint = movementInput.Sprint;
 	}
 
 	public void UpdateCapsuleHeight(Vector3 cameraTargetHeight, Vector3 rootTargetScale) {
