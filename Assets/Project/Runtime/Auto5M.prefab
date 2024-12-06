@@ -60,6 +60,7 @@ MonoBehaviour:
   crosshair: {fileID: 0}
   weaponRoot: {fileID: 0}
   gripPoint: {fileID: 2613642233799672223}
+  playerToFollow: {fileID: 0}
   muzzle: {fileID: 0}
   shootType: 1
   projectilePrefab: {fileID: 0}
@@ -189,7 +190,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 3557576476462763374}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -200,7 +202,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedValusSet: 0
+  _initializedValusSet: 1
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -215,14 +217,14 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 8117748646088434030
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
 --- !u!114 &3557576476462763374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,9 +237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 6034572138805725159}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6034572138805725159}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:

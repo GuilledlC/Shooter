@@ -40,7 +40,6 @@ public class PickableWeapon : MonoBehaviour {
 	}
 
 	public virtual void Initialize() {
-		Debug.Log("Pickable init");
 		enabled = true;
 		rigidbody.isKinematic = false;
 		collider.enabled = true;
@@ -49,16 +48,15 @@ public class PickableWeapon : MonoBehaviour {
 	}
 
 	public virtual void Deactivate() {
-		Debug.Log("Pickable deactivate");
 		enabled = false;
 		rigidbody.isKinematic = true;
 		collider.enabled = false;
 		pickupRange.enabled = false;
 	}
 
-	public Weapon PickUp() {
+	public Weapon PickUp(PlayerItemController player) {
 		Deactivate();
-		weapon.Initialize();
+		weapon.Initialize(player);
 		return weapon;
 	}
 }

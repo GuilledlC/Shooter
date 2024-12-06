@@ -30,17 +30,24 @@ public abstract class Weapon : MonoBehaviour {
 	[Header("Internal References")]
 	[SerializeField] private GameObject weaponRoot;
 	[SerializeField] private Transform gripPoint;
+	[SerializeField] private PlayerItemController playerToFollow;
 
 	public Transform GetGripPoint() => gripPoint;
-	
-	public virtual void Initialize() {
-		Debug.Log("Weapon init");
+
+
+	private void Update() {
+		if (playerToFollow)
+			this.transform.position = playerToFollow.GetGunPoint().position;
+	}
+
+	public virtual void Initialize(PlayerItemController player) {
 		enabled = true;
+		playerToFollow = player;
 	}
 
 	public virtual void Deactivate() {
-		Debug.Log("Weapon deactivate");
 		enabled = false;
+		playerToFollow = null;
 	}
 
 	public virtual PickableWeapon Drop(Vector3 position) {

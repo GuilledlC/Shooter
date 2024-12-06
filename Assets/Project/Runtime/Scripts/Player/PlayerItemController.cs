@@ -16,6 +16,8 @@ public class PlayerItemController : NetworkBehaviour {
 	[Header("Attributes")]
 	[SerializeField] private float pickUpDistance = 2.5f;
 	
+	public Transform GetGunPoint() => gunPoint;
+	
 	private Transform cameraTransform;
 
 	private Quaternion _requestedRotation;
@@ -62,50 +64,44 @@ public class PlayerItemController : NetworkBehaviour {
 	}
 
 	private void UpdateRotation() {
-		gunPoint.rotation = _requestedRotation;
+		if(heldWeapon != null)
+			heldWeapon.transform.rotation = _requestedRotation;
 	}
 	
 
 	[ServerRpc(RequireOwnership = false)]
-	private void PickupItem(NetworkObject weapon) { 
+	private void PickupItem(NetworkObject networkWeapon) { 
 		//Change ownership
-		weapon.GiveOwnership(base.Owner);
-
-		AttachItemObserverRpc(weapon.ObjectId);
+		networkWeapon.GiveOwnership(base.Owner);
+		AttachItemObserverRpc(networkWeapon.ObjectId);
 	}
 
 	[ServerRpc(RequireOwnership = false)]
 	private void DropItem() {
-		//Maybe move thsi tooo?
 		NetworkObject networkWeapon = heldWeapon.GetComponent<NetworkObject>();
-
+		//Change ownership
 		networkWeapon.RemoveOwnership();
 		DetachItemObserverRpc(networkWeapon.ObjectId);
 	}
 
 	[ObserversRpc(BufferLast = true)]
 	private void AttachItemObserverRpc(int objectId) {
-		AttachItemToPlayer(ClientManager.Objects.Spawned[objectId]);
-
-	}
-
-	[ObserversRpc(BufferLast = true)]
-	private void DetachItemObserverRpc(int objectId) {
-		DetachItemFromPlayer(ClientManager.Objects.Spawned[objectId]);
-	}
-	
-	private void AttachItemToPlayer(NetworkObject item) {
+		
+		NetworkObject item = ClientManager.Objects.Spawned[objectId];
+		
 		if(heldWeapon != null)
 			DropItem();
-
-		heldWeapon = item.GetComponent<PickableWeapon>().PickUp();
+		heldWeapon = item.GetComponent<PickableWeapon>().PickUp(this);
 
 		item.transform.SetParent(gunPoint);
 		item.transform.localPosition = -heldWeapon.GetGripPoint().localPosition;
 		item.transform.localRotation = Quaternion.identity;
 	}
 
-	private void DetachItemFromPlayer(NetworkObject item) {
+	[ObserversRpc(BufferLast = true)]
+	private void DetachItemObserverRpc(int objectId) {
+		
+		NetworkObject item = ClientManager.Objects.Spawned[objectId];
 		
 		if (heldWeapon == null)
 			return;
