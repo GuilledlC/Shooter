@@ -1539,6 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afafe4e8c1f32894c925ce0f5913afcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 152994846442528464}
   staminaBar: {fileID: 3866640477683988460}
   stance: {fileID: 4679088829736678707}
   speed: {fileID: 1923519825929147380}

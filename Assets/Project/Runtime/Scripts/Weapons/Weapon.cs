@@ -41,6 +41,8 @@ public abstract class Weapon : MonoBehaviour {
 	}
 
 	public virtual void Initialize(PlayerItemController player) {
+		SetLayerRecursively(gameObject, LayerMask.NameToLayer("GunLayer"));
+
 		enabled = true;
 		playerToFollow = player;
 	}
@@ -56,6 +58,17 @@ public abstract class Weapon : MonoBehaviour {
 		transform.position = position;
 		pickableWeapon.Initialize();
 		return pickableWeapon;
+	}
+	
+	
+	//DO THIS IN A SINGLETON OR SOMETHING, IT EXISTS ALSO IN PickableWeapon.cs
+	public void SetLayerRecursively(GameObject obj, int newLayer) {
+		// Update the layer of the object itself
+		obj.layer = newLayer;
+
+		// Update all children
+		foreach (Transform child in obj.transform)
+			SetLayerRecursively(child.gameObject, newLayer);
 	}
 	
 }

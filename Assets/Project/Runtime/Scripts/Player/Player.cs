@@ -83,6 +83,7 @@ public class Player : NetworkBehaviour {
 		    
 		    playerCharacter.UpdateInput(characterMovementInput);
 		    playerCharacter.UpdateBody(deltaTime);
+		    playerUI.UpdateInput(input.Pause.WasPressedThisFrame());
 		    playerUI.UpdateUI(playerCharacter);
 		    
 		    //Get character item input and update it

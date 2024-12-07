@@ -40,13 +40,15 @@ public class PickableWeapon : MonoBehaviour {
 	}
 
 	public virtual void Initialize() {
+		SetLayerRecursively(gameObject, LayerMask.NameToLayer("Default"));
+		
 		enabled = true;
 		rigidbody.isKinematic = false;
 		collider.enabled = true;
 		pickupRange.enabled = true;
 
 	}
-
+	
 	public virtual void Deactivate() {
 		enabled = false;
 		rigidbody.isKinematic = true;
@@ -59,4 +61,15 @@ public class PickableWeapon : MonoBehaviour {
 		weapon.Initialize(player);
 		return weapon;
 	}
+	
+	//DO THIS IN A SINGLETON OR SOMETHING, IT EXISTS ALSO IN Weapon.cs
+	public void SetLayerRecursively(GameObject obj, int newLayer) {
+		// Update the layer of the object itself
+		obj.layer = newLayer;
+
+		// Update all children
+		foreach (Transform child in obj.transform)
+			SetLayerRecursively(child.gameObject, newLayer);
+	}
+	
 }

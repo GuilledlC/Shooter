@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour {
 
+	[SerializeField] private Canvas canvas;
 	[SerializeField] private StaminaBarUI staminaBar;
 	[SerializeField] private StanceUI stance;
 	[SerializeField] private SpeedUI speed;
-	
+
+	private bool _requestPause = false;
+
+	public void UpdateInput(bool pause) {
+		if(pause)
+			_requestPause = !_requestPause;
+	}
+
 	public void UpdateUI(PlayerCharacter playerCharacter) {
+		canvas.enabled = !_requestPause;
+		
 		staminaBar.UpdateStamina(
 			playerCharacter.GetCharacterState().Stamina,
 			playerCharacter.GetMaxStamina());
