@@ -2,7 +2,17 @@
 
 public enum ShootType {
 	Automatic,
-	Semiautomatic
+	Semiautomatic,
+	DoubleAction
+}
+
+//IMPLEMENT THIS
+public enum FirearmState {
+	Ready,
+	Shooting,
+	Reloading,
+	Sheathing,
+	Unsheathing
 }
 
 public class Firearm : Weapon {
@@ -23,9 +33,14 @@ public class Firearm : Weapon {
 		[Tooltip("Minimum duration between two shots when holding fire in a semiautomatic weapon")]
 		[SerializeField] private float readyDelay; //Fanning? what should we do about this?
 		[SerializeField] private float recoil; //DO SOMETHING ABOUT THIS
-		[SerializeField] private float aimZoomRatio;
 		[SerializeField] private float muzzleVelocity;	//SHOULD THIS AND OTHER WEAPON-SPECIFIC PROJECTILE
 		//ATTRIBUTES BE HERE OR IN THE PROJECTILE?
+
+		[Header("Aiming")]
+		[Range(0f, 0.25f)]
+		[SerializeField] private float aimDelay;
+		[SerializeField] private float aimZoomRatio;
+		private Transform playerAimPoint;
 		
 		[Header("Reload")]
 		[SerializeField] private float reloadDelay;
@@ -61,7 +76,28 @@ public class Firearm : Weapon {
 		chamber = 1;
 	}
 
+	public override void Initialize(PlayerItemController player) {
+		base.Initialize(player);
+		playerAimPoint = player.GetAimPoint();
+	}
+	
+	public void Aim() {
+		MoveAimPoint(playerAimPoint.localPosition);
+	}
 
+	public void StopAiming() {
+		MoveAimPoint(playerHoldPoint.localPosition);
+	}
+
+	private Vector3 weaponVelocityInternal = Vector3.zero;
+	private void MoveAimPoint(Vector3 targetPoint) {
+		transform.localPosition = Vector3.SmoothDamp(
+			transform.localPosition,
+			targetPoint,
+			ref weaponVelocityInternal,
+			aimDelay);
+		//weaponPoint.localPosition = Vector3.Lerp(weaponPoint.localPosition, targetPosition, timeToAim);
+	}
 	
 	public bool TryShoot() {
 		if (BulletInChamber()) {

@@ -23,6 +23,7 @@ public class PlayerItemController : NetworkBehaviour {
 	
 	public Transform GetPlayerCamera() => playerCamera;
 	public Transform GetHoldPoint() => holdPoint;
+	public Transform GetAimPoint() => aimPoint;
 	
 	private bool _holdingWeapon;
 
@@ -65,6 +66,8 @@ public class PlayerItemController : NetworkBehaviour {
 
 				PickableWeapon item = hit.collider.gameObject.GetComponent<PickableWeapon>();
 				if (item != null) {
+					if(_holdingWeapon)
+						DropItem();
 					PickupItem(item.GetComponent<NetworkObject>());
 				}
 			}
@@ -83,16 +86,10 @@ public class PlayerItemController : NetworkBehaviour {
 			return;
 		
 		if (_requestedAim)
-			firearm.Aim(aimPoint.localPosition);
+			firearm.Aim();
 		else
-			firearm.StopAiming(holdPoint.localPosition);
+			firearm.StopAiming();
 		
-		/*weaponPoint.localPosition = Vector3.SmoothDamp(
-			weaponPoint.localPosition,
-			targetPosition,
-			ref heldWeapon.weaponVelocity,
-			timeToAim);*/
-		//weaponPoint.localPosition = Vector3.Lerp(weaponPoint.localPosition, targetPosition, timeToAim);
 	}
 
 	[ServerRpc(RequireOwnership = false)]
@@ -112,20 +109,14 @@ public class PlayerItemController : NetworkBehaviour {
 
 	[ObserversRpc(BufferLast = true)]
 	private void AttachItemObserverRpc(int objectId) {
-		
 		NetworkObject item = ClientManager.Objects.Spawned[objectId];
 		
-		if(_holdingWeapon)
-			DropItem();
 		heldWeapon = item.GetComponent<PickableWeapon>().PickUp(this);
 		_holdingWeapon = true;
 	}
 
 	[ObserversRpc(BufferLast = true)]
 	private void DetachItemObserverRpc(int objectId) {
-		
-		NetworkObject item = ClientManager.Objects.Spawned[objectId];
-		
 		if (!_holdingWeapon)
 			return;
 		heldWeapon.Drop(holdPoint.position);

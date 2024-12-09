@@ -1,3 +1,4 @@
+using FishNet.Object;
 using UnityEngine;
 using KinematicCharacterController;
 
@@ -30,14 +31,13 @@ public struct CharacterMovementInput {
 }
 
 //Thanks to https://www.youtube.com/watch?v=NsSk58un8E0
-public class PlayerCharacter : MonoBehaviour, ICharacterController {
+public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 
 	#region Serialized Attributes
 
 		[SerializeField] private KinematicCharacterMotor motor;
-		[SerializeField] private PlayerNetwork playerNetwork;
 		[SerializeField] private Transform root;
-		[SerializeField] private Transform cameraTarget;
+		[SerializeField] private CameraTarget cameraTarget;
 		[Space]
 		[SerializeField] private float maxStamina = 3f;
 		[SerializeField] private float minStamina = 0.1f;
@@ -104,6 +104,40 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 
 	#endregion
 	
+	#region RPCs
+
+	[ServerRpc]
+	private void ChangeCapsuleHeightServer(GameObject player, Vector3 cameraTargetHeight, Vector3 rootTargetScale) {
+		ChangeCapsuleHeight(player, cameraTargetHeight, rootTargetScale);
+	}
+
+	[ObserversRpc(ExcludeOwner = true, BufferLast = true)]
+	private void ChangeCapsuleHeight(GameObject player, Vector3 cameraTargetHeight, Vector3 rootTargetScale) {
+		player.GetComponent<PlayerCharacter>().UpdateCapsuleHeight(cameraTargetHeight, rootTargetScale);
+	}
+			
+	[ServerRpc]
+	private void ChangeMotorHeightServer(GameObject player, float radius, float height, float yOffset) {
+		ChangeMotorHeight(player, radius, height, yOffset);
+	}
+
+	[ObserversRpc(ExcludeOwner = true, BufferLast = true)]
+	private void ChangeMotorHeight(GameObject player, float radius, float height, float yOffset) {
+		player.GetComponent<PlayerCharacter>().UpdateMotorHeight(radius, height, yOffset);
+	}
+
+	#endregion
+	
+	private void UpdateCapsuleHeight(Vector3 cameraTargetHeight, Vector3 rootTargetScale) {
+		cameraTarget.UpdateLocalPosition(cameraTargetHeight);
+		root.localScale = rootTargetScale;
+	}
+
+	private void UpdateMotorHeight(float radius, float height, float yOffset) {
+		motor.SetCapsuleDimensions(radius, height, yOffset);
+	}
+	
+	
 	public void Initialize() {
 		_state.Stance = Stance.Stand;
 		_state.Speed = 0;
@@ -144,15 +178,6 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 		//Sprint input
 		_requestedSprint = movementInput.Sprint;
 	}
-
-	public void UpdateCapsuleHeight(Vector3 cameraTargetHeight, Vector3 rootTargetScale) {
-		cameraTarget.localPosition = cameraTargetHeight;
-		root.localScale = rootTargetScale;
-	}
-
-	public void UpdateMotorHeight(float radius, float height, float yOffset) {
-		motor.SetCapsuleDimensions(radius, height, yOffset);
-	}
 	
 	public void UpdateBody(float deltaTime) {
 		
@@ -165,7 +190,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 		var rootTargetScale = new Vector3(1f, normalizedHeight, 1f);
 
 		var newCameraScale = Vector3.Lerp(
-			cameraTarget.localPosition,
+			cameraTarget.GetLocalPosition(),
 			new Vector3(0f, cameraTargetHeight, 0f),
 			1f - Mathf.Exp(-crouchHeightResponse * deltaTime));
 		var newRootScale = Vector3.Lerp(
@@ -174,7 +199,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 			1f - Mathf.Exp(-crouchHeightResponse * deltaTime));
 
 		UpdateCapsuleHeight(newCameraScale, newRootScale);
-		playerNetwork.ChangeCapsuleHeightServer(this.gameObject, newCameraScale, newRootScale);
+		ChangeCapsuleHeightServer(this.gameObject, newCameraScale, newRootScale);
 	}
 
 	public void UpdateRotation(ref Quaternion currentRotation, float deltaTime) {
@@ -455,7 +480,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 					radius: motor.Capsule.radius,
 					height: crouchHeight,
 					yOffset: crouchHeight * 0.5f);
-				playerNetwork.ChangeMotorHeightServer(
+				ChangeMotorHeightServer(
 					player: gameObject,
 					radius: motor.Capsule.radius,
 					height: crouchHeight,
@@ -481,7 +506,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 				radius: motor.Capsule.radius,
 				height: standHeight,
 				yOffset: standHeight * 0.5f);
-			playerNetwork.ChangeMotorHeightServer(
+			ChangeMotorHeightServer(
 				player: gameObject,
 				radius: motor.Capsule.radius,
 				height: standHeight,
@@ -498,7 +523,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 					radius: motor.Capsule.radius,
 					height: crouchHeight,
 					yOffset: crouchHeight * 0.5f);
-				playerNetwork.ChangeMotorHeightServer(
+				ChangeMotorHeightServer(
 					player: gameObject,
 					radius: motor.Capsule.radius,
 					height: crouchHeight,
@@ -532,7 +557,7 @@ public class PlayerCharacter : MonoBehaviour, ICharacterController {
 
 	public void OnDiscreteCollisionDetected(Collider hitCollider) { }
 
-	public Transform GetCameraTarget() => cameraTarget;
+	public Transform GetCameraTarget() => cameraTarget.transform;
 	
 	public float GetMaxStamina() => maxStamina;
 	

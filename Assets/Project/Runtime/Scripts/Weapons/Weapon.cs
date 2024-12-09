@@ -18,27 +18,19 @@ public abstract class Weapon : NetworkBehaviour {
 	[SerializeField] private PickableWeapon pickableWeapon;
 	
 	[Header("Information")]
-	[SerializeField] private string weaponName;
-	[SerializeField] private string weaponDescription;
-	[SerializeField] private WeaponSlot weaponSlot;
+	[SerializeField] protected string weaponName;
+	[SerializeField] protected string weaponDescription;
+	[SerializeField] protected WeaponSlot weaponSlot;
 
 	[Header("Visual")]
-	[SerializeField] private Sprite weaponIcon;
-	[SerializeField] private Sprite crosshair;
+	[SerializeField] protected Sprite weaponIcon;
+	[SerializeField] protected Sprite crosshair;
 
 	[Header("Internal References")]
-	[SerializeField] private GameObject weaponRoot;
-	[SerializeField] private Transform gripPoint;
+	[SerializeField] protected GameObject weaponRoot;
+	[SerializeField] protected Transform gripPoint;
+	protected Transform playerHoldPoint;
 	
-	public Transform GetGripPoint() => gripPoint;
-
-	public void Aim(Vector3 aimPoint) {
-		transform.localPosition = aimPoint;
-	}
-
-	public void StopAiming(Vector3 holdPoint) {
-		transform.localPosition = holdPoint;
-	}
 	
 	public virtual void Initialize(PlayerItemController player) {
 		
@@ -48,8 +40,14 @@ public abstract class Weapon : NetworkBehaviour {
 
 		enabled = true;
 		transform.SetParent(player.GetPlayerCamera());
-		transform.localPosition = player.GetHoldPoint().localPosition;
+		Debug.Log("The holdpoint is " + player.GetHoldPoint().localPosition);
+		Debug.Log("The grippoint is " + gripPoint.localPosition);
+		Debug.Log("The sum is " + (player.GetHoldPoint().localPosition - gripPoint.localPosition));
+		transform.localPosition = player.GetHoldPoint().localPosition - gripPoint.localPosition;
+		Debug.Log("The localposition is " + transform.localPosition);
 		transform.localRotation = quaternion.identity;
+
+		playerHoldPoint = player.GetHoldPoint();
 	}
 
 	public virtual void Deactivate() {
