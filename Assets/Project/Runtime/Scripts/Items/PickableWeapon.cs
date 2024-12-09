@@ -3,11 +3,6 @@ using FishNet.Component.Transforming;
 using UnityEngine;
 using FishNet.Object;
 
-/*[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(MeshCollider))]
-[RequireComponent(typeof(CapsuleCollider))]
-[RequireComponent(typeof(NetworkObject))]
-[RequireComponent(typeof(NetworkTransform))]*/
 public class PickableWeapon : MonoBehaviour {
 
 	[Header("Basic information")]
@@ -46,7 +41,6 @@ public class PickableWeapon : MonoBehaviour {
 		rigidbody.isKinematic = false;
 		collider.enabled = true;
 		pickupRange.enabled = true;
-
 	}
 	
 	public virtual void Deactivate() {

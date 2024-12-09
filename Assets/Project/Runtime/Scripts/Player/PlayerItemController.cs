@@ -6,33 +6,42 @@ public struct CharacterItemInput {
 	public Quaternion Rotation;
 	public bool Pickup;
 	public bool Drop;
+	public bool Shoot;
+	public bool Aim;
 }
 
 public class PlayerItemController : NetworkBehaviour {
 
 	[Header("Basic information")]
 	[SerializeField] private Weapon heldWeapon;
-	[SerializeField] private Transform gunPoint;
+	[SerializeField] private Transform holdPoint;
+	[SerializeField] private Transform aimPoint;
+	[SerializeField] private Transform playerCamera;
 	[Header("Attributes")]
 	[SerializeField] private float pickUpDistance = 2.5f;
+	[SerializeField] private float timeToAim = 0.4f;
 	
-	public Transform GetGunPoint() => gunPoint;
+	public Transform GetPlayerCamera() => playerCamera;
+	public Transform GetHoldPoint() => holdPoint;
 	
-	private Transform cameraTransform;
+	private bool _holdingWeapon;
 
 	private Quaternion _requestedRotation;
 	private bool _requestedPickup;
 	private bool _requestedDrop;
+	private bool _requestedShoot;
+	private bool _requestedAim;
 
-	public void Initialize(Transform cameraTransform) {
-		this.cameraTransform = cameraTransform;
+	public void Initialize(/*Transform cameraTarget*/) {
+		/*this.cameraTarget = cameraTarget;*/
+		_holdingWeapon = false;
 	}
 	
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.green;
-		Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit,
+		Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit,
 			pickUpDistance);
-		Gizmos.DrawLine(cameraTransform.position, cameraTransform.position + cameraTransform.forward * pickUpDistance);
+		Gizmos.DrawLine(playerCamera.position, playerCamera.position + playerCamera.forward * pickUpDistance);
 		Gizmos.color = Color.red;
 		Gizmos.DrawSphere(hit.point, 0.1f);
 	}
@@ -41,33 +50,50 @@ public class PlayerItemController : NetworkBehaviour {
 		_requestedRotation = itemInput.Rotation;
 		_requestedPickup = itemInput.Pickup;
 		_requestedDrop = itemInput.Drop;
+		_requestedShoot = itemInput.Shoot;
+		_requestedAim = itemInput.Aim;
 	}
 
 	void Update() {
+		if (base.IsOwner) {
+			UpdateWeaponAim();
 		
-		UpdateRotation();
-		
-		//Pick up
-		if (_requestedPickup) {
-			Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit,
-				pickUpDistance);
+			//Pick up
+			if (_requestedPickup) {
+				Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit,
+					pickUpDistance);
 
-			PickableWeapon item = hit.collider.gameObject.GetComponent<PickableWeapon>();
-			if (item != null) {
-				PickupItem(item.GetComponent<NetworkObject>());
+				PickableWeapon item = hit.collider.gameObject.GetComponent<PickableWeapon>();
+				if (item != null) {
+					PickupItem(item.GetComponent<NetworkObject>());
+				}
+			}
+			//Drop
+			else if(_requestedDrop) {
+				DropItem();
 			}
 		}
-		//Drop
-		else if(_requestedDrop) {
-			DropItem();
-		}
 	}
 
-	private void UpdateRotation() {
-		if(heldWeapon != null)
-			heldWeapon.transform.rotation = _requestedRotation;
+	private void UpdateWeaponAim() {
+		if(!_holdingWeapon)
+			return;
+
+		if (heldWeapon is not Firearm firearm)
+			return;
+		
+		if (_requestedAim)
+			firearm.Aim(aimPoint.localPosition);
+		else
+			firearm.StopAiming(holdPoint.localPosition);
+		
+		/*weaponPoint.localPosition = Vector3.SmoothDamp(
+			weaponPoint.localPosition,
+			targetPosition,
+			ref heldWeapon.weaponVelocity,
+			timeToAim);*/
+		//weaponPoint.localPosition = Vector3.Lerp(weaponPoint.localPosition, targetPosition, timeToAim);
 	}
-	
 
 	[ServerRpc(RequireOwnership = false)]
 	private void PickupItem(NetworkObject networkWeapon) { 
@@ -89,13 +115,10 @@ public class PlayerItemController : NetworkBehaviour {
 		
 		NetworkObject item = ClientManager.Objects.Spawned[objectId];
 		
-		if(heldWeapon != null)
+		if(_holdingWeapon)
 			DropItem();
 		heldWeapon = item.GetComponent<PickableWeapon>().PickUp(this);
-
-		item.transform.SetParent(gunPoint);
-		item.transform.localPosition = -heldWeapon.GetGripPoint().localPosition;
-		item.transform.localRotation = Quaternion.identity;
+		_holdingWeapon = true;
 	}
 
 	[ObserversRpc(BufferLast = true)]
@@ -103,12 +126,11 @@ public class PlayerItemController : NetworkBehaviour {
 		
 		NetworkObject item = ClientManager.Objects.Spawned[objectId];
 		
-		if (heldWeapon == null)
+		if (!_holdingWeapon)
 			return;
-		heldWeapon.Drop(gunPoint.position);
+		heldWeapon.Drop(holdPoint.position);
 		heldWeapon = null;
-		
-		item.transform.SetParent(null);
+		_holdingWeapon = false;
 	}
 	
 }

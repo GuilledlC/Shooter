@@ -29,71 +29,80 @@ public struct CharacterMovementInput {
 	public bool Sprint;
 }
 
+//Thanks to https://www.youtube.com/watch?v=NsSk58un8E0
 public class PlayerCharacter : MonoBehaviour, ICharacterController {
 
-	[SerializeField] private KinematicCharacterMotor motor;
-	[SerializeField] private PlayerNetwork playerNetwork;
-	[SerializeField] private Transform root;
-	[SerializeField] private Transform cameraTarget;
-	[Space]
-	[SerializeField] private float maxStamina = 3f;
-	[SerializeField] private float minStamina = 0.1f;
-	[SerializeField] private float staminaCooldown = 0.5f;
-	[Tooltip("How much faster the stamina bar fills up")]
-	[SerializeField] private float staminaRecMult = 2f;
-	[Space]
-	[SerializeField] private float walkSpeed = 20f;
-	[SerializeField] private float crouchSpeed = 7f;
-	[SerializeField] private float sprintSpeed = 30f;
-	[Space]
-	[SerializeField] private float walkResponse = 25f;
-	[SerializeField] private float crouchResponse = 20f;
-	[SerializeField] private float sprintResponse = 30f;
-	[Space]
-	[SerializeField] private float airSpeed = 15f;
-	[SerializeField] private float airAcceleration = 180;
-	[Space]
-	[SerializeField] private float diveSpeed = 24f;
-	[SerializeField] private float diveTime = 0.3f;
-	[SerializeField] private float diveStaminaCost = 0.2f;
-	[SerializeField] private float diveGravityMultiplier = 0.7f;
-	[SerializeField] private float diveJumpNegateMultiplier = 0.4f;
-	[Space]
-	[SerializeField] private float jumpSpeed = 20f;
-	[SerializeField] private float coyoteTime = 0.2f;
-	[SerializeField] private float jumpStaminaCost = 0.3f;
-	[SerializeField] private float jumpSustainGravityMultiplier = 0.55f;
-	[SerializeField] private float gravity = -90f;
-	[SerializeField] private float terminalFallSpeed = -50f;
-	[Space]
-	[SerializeField] private float standHeight = 2f;
-	[SerializeField] private float crouchHeight = 1f;
-	[SerializeField] private float crouchHeightResponse = 15f;
-	[Range(0f, 1f)]
-	[SerializeField] private float standCameraHeight = 0.9f;
-	[Range(0f, 1f)]
-	[SerializeField] private float crouchCameraHeight = 0.7f;
+	#region Serialized Attributes
 
-	private CharacterState _state;
-	private CharacterState _lastState;
-	private CharacterState _tempState;
-	
-	private float _currentStamina;
+		[SerializeField] private KinematicCharacterMotor motor;
+		[SerializeField] private PlayerNetwork playerNetwork;
+		[SerializeField] private Transform root;
+		[SerializeField] private Transform cameraTarget;
+		[Space]
+		[SerializeField] private float maxStamina = 3f;
+		[SerializeField] private float minStamina = 0.1f;
+		[SerializeField] private float staminaCooldown = 0.5f;
+		[Tooltip("How much faster the stamina bar fills up")]
+		[SerializeField] private float staminaRecMult = 2f;
+		[Space]
+		[SerializeField] private float walkSpeed = 20f;
+		[SerializeField] private float crouchSpeed = 7f;
+		[SerializeField] private float sprintSpeed = 30f;
+		[Space]
+		[SerializeField] private float walkResponse = 25f;
+		[SerializeField] private float crouchResponse = 20f;
+		[SerializeField] private float sprintResponse = 30f;
+		[Space]
+		[SerializeField] private float airSpeed = 15f;
+		[SerializeField] private float airAcceleration = 180;
+		[Space]
+		[SerializeField] private float diveSpeed = 24f;
+		[SerializeField] private float diveTime = 0.3f;
+		[SerializeField] private float diveStaminaCost = 0.2f;
+		[SerializeField] private float diveGravityMultiplier = 0.7f;
+		[SerializeField] private float diveJumpNegateMultiplier = 0.4f;
+		[Space]
+		[SerializeField] private float jumpSpeed = 20f;
+		[SerializeField] private float coyoteTime = 0.2f;
+		[SerializeField] private float jumpStaminaCost = 0.3f;
+		[SerializeField] private float jumpSustainGravityMultiplier = 0.55f;
+		[SerializeField] private float gravity = -90f;
+		[SerializeField] private float terminalFallSpeed = -50f;
+		[Space]
+		[SerializeField] private float standHeight = 2f;
+		[SerializeField] private float crouchHeight = 1f;
+		[SerializeField] private float crouchHeightResponse = 15f;
+		[Range(0f, 1f)]
+		[SerializeField] private float standCameraHeight = 0.9f;
+		[Range(0f, 1f)]
+		[SerializeField] private float crouchCameraHeight = 0.7f;
 
-	private Quaternion _requestedRotation;
-	private Vector3 _requestedMovement;
-	private bool _requestedJump;
-	private bool _requestedSustainedJump;
-	private bool _requestedCrouch;
-	private bool _requestedSprint;
+	#endregion
 
-	private float _timeSinceUngrounded;
-	private float _timeSinceJumpRequest;
-	private bool _ungroundedDueToJump;
+	#region Private Attributes
 
-	private float _timeSinceNoStamina;
-	
-	private Collider[] _uncrouchOverlapResults;
+		private CharacterState _state;
+		private CharacterState _lastState;
+		private CharacterState _tempState;
+		
+		private float _currentStamina;
+
+		private Quaternion _requestedRotation;
+		private Vector3 _requestedMovement;
+		private bool _requestedJump;
+		private bool _requestedSustainedJump;
+		private bool _requestedCrouch;
+		private bool _requestedSprint;
+
+		private float _timeSinceUngrounded;
+		private float _timeSinceJumpRequest;
+		private bool _ungroundedDueToJump;
+
+		private float _timeSinceNoStamina;
+		
+		private Collider[] _uncrouchOverlapResults;
+
+	#endregion
 	
 	public void Initialize() {
 		_state.Stance = Stance.Stand;

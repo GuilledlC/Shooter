@@ -55,15 +55,13 @@ public class Firearm : Weapon {
 
 	#endregion
 
-	private void Start() {
-		
-	}
-
 	private void Awake() {
 		currentAmmo = bulletsPerMag;
 		currentMags = startMags;
 		chamber = 1;
 	}
+
+
 	
 	public bool TryShoot() {
 		if (BulletInChamber()) {

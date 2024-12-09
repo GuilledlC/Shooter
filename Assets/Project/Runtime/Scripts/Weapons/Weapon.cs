@@ -1,6 +1,7 @@
 ﻿using System;
 using FishNet.Component.Transforming;
 using FishNet.Object;
+using Unity.Mathematics;
 using UnityEngine;
 
 public enum WeaponSlot {
@@ -11,9 +12,7 @@ public enum WeaponSlot {
 	Special
 }
 
-/*[RequireComponent(typeof(NetworkObject))]
-[RequireComponent(typeof(NetworkTransform))]*/
-public abstract class Weapon : MonoBehaviour {
+public abstract class Weapon : NetworkBehaviour {
 
 	[Header("Item")]
 	[SerializeField] private PickableWeapon pickableWeapon;
@@ -30,26 +29,32 @@ public abstract class Weapon : MonoBehaviour {
 	[Header("Internal References")]
 	[SerializeField] private GameObject weaponRoot;
 	[SerializeField] private Transform gripPoint;
-	[SerializeField] private PlayerItemController playerToFollow;
-
+	
 	public Transform GetGripPoint() => gripPoint;
 
-
-	private void Update() {
-		if (playerToFollow)
-			this.transform.position = playerToFollow.GetGunPoint().position;
+	public void Aim(Vector3 aimPoint) {
+		transform.localPosition = aimPoint;
 	}
 
+	public void StopAiming(Vector3 holdPoint) {
+		transform.localPosition = holdPoint;
+	}
+	
 	public virtual void Initialize(PlayerItemController player) {
-		SetLayerRecursively(gameObject, LayerMask.NameToLayer("GunLayer"));
+		
+		if(base.IsOwner)
+			//Set it in teh gun layer so it stays on top of objects
+			SetLayerRecursively(gameObject, LayerMask.NameToLayer("GunLayer"));
 
 		enabled = true;
-		playerToFollow = player;
+		transform.SetParent(player.GetPlayerCamera());
+		transform.localPosition = player.GetHoldPoint().localPosition;
+		transform.localRotation = quaternion.identity;
 	}
 
 	public virtual void Deactivate() {
 		enabled = false;
-		playerToFollow = null;
+		transform.SetParent(null);
 	}
 
 	public virtual PickableWeapon Drop(Vector3 position) {

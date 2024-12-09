@@ -52,6 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971578fd866f463992bb662c19ea3ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6034572138805725159}
+  _networkObjectCache: {fileID: 0}
   pickableWeapon: {fileID: 850466300260663133}
   weaponName: Auto 5M
   weaponDescription: 
@@ -61,6 +64,7 @@ MonoBehaviour:
   weaponRoot: {fileID: 0}
   gripPoint: {fileID: 2613642233799672223}
   playerToFollow: {fileID: 0}
+  weaponVelocity: {x: 0, y: 0, z: 0}
   muzzle: {fileID: 0}
   shootType: 1
   projectilePrefab: {fileID: 0}
