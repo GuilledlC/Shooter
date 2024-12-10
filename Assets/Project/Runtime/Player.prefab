@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 314255199104374276}
   - component: {fileID: 4062960718364794306}
   - component: {fileID: 6156377848023853591}
-  - component: {fileID: 1549022393446706702}
   - component: {fileID: 2728502550691400483}
   - component: {fileID: 3378516815150493260}
   m_Layer: 3
@@ -55,7 +54,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2728502550691400483}
   _networkObjectCache: {fileID: 0}
   playerCharacter: {fileID: 2753106446851879893}
-  playerHealth: {fileID: 1549022393446706702}
+  playerHealth: {fileID: 5017325248781748521}
   playerCamera: {fileID: 1074645174355384259}
   playerUI: {fileID: 4839471704732063712}
   playerItemController: {fileID: 6156377848023853591}
@@ -82,20 +81,6 @@ MonoBehaviour:
   playerCamera: {fileID: 4226914714370529236}
   pickUpDistance: 2.5
   timeToAim: 0.4
---- !u!114 &1549022393446706702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45033469179522229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c037c874e309f284aad81cb4b9aeaa4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  startHealth: 100
 --- !u!114 &2728502550691400483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,6 +873,8 @@ GameObject:
   - component: {fileID: 4584448562511321869}
   - component: {fileID: 2753106446851879893}
   - component: {fileID: 6302119199073568789}
+  - component: {fileID: 5017325248781748521}
+  - component: {fileID: 946931720617470954}
   m_Layer: 3
   m_Name: Character
   m_TagString: Untagged
@@ -1067,6 +1054,47 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &5017325248781748521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742496582565401697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c037c874e309f284aad81cb4b9aeaa4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  startHealth: 100
+--- !u!54 &946931720617470954
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742496582565401697}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4355061527764664450
 GameObject:
   m_ObjectHideFlags: 0

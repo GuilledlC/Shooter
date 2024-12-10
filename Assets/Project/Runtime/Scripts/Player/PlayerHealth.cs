@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour {
 	public void Initialize() {
 		//Initialize the player's health
 		currentHealth = startHealth;
+		OnHealthChanged?.Invoke(currentHealth, maxHealth);
 	}
 
 	public void Heal(float amount) {

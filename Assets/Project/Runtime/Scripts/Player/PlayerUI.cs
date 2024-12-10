@@ -17,12 +17,13 @@ public class PlayerUI : MonoBehaviour {
 			_requestPause = !_requestPause;
 	}
 
-	public void UpdateUI(PlayerHealth playerHealth, PlayerCharacter playerCharacter) {
+	public void Initialize(PlayerHealth playerHealth) {
+		playerHealth.OnHealthChanged += healthBar.UpdateHealth;
+	}
+	
+	public void UpdateUI(PlayerCharacter playerCharacter) {
 		canvas.enabled = !_requestPause;
 		
-		healthBar.UpdateHealth(
-			playerHealth.GetCurrentHealth(),
-			playerHealth.GetMaxHealth());
 		staminaBar.UpdateStamina(
 			playerCharacter.GetCharacterState().Stamina,
 			playerCharacter.GetMaxStamina());

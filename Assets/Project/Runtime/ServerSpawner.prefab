@@ -48,7 +48,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 8595645773820394352}
   _networkObjectCache: {fileID: 0}
-  spawnInterval: 3
+  spawnInterval: 30
   objectsToSpawn:
   - {fileID: 3859743337909985153, guid: 2d56da81bd0a0f1448bc560855e60945, type: 3}
   - {fileID: 3859743337909985153, guid: 97be035cc6f1d854088adf96ed276188, type: 3}

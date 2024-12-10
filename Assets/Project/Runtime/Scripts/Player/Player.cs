@@ -33,7 +33,10 @@ public class Player : NetworkBehaviour {
 		cameraSpring.Initialize();
 		playerItemController.Initialize();
 		playerCharacter.Initialize();
+		playerUI.Initialize(playerHealth);
 		playerHealth.Initialize();
+
+		playerHealth.OnPlayerDeath += Die;
 	}
 	
 	public override void OnStartClient() {
@@ -54,7 +57,6 @@ public class Player : NetworkBehaviour {
 			playerCharacter.gameObject.GetComponent<KinematicCharacterMotor>().enabled = false;
 			playerUI.gameObject.SetActive(false);
 			playerHealth.enabled = false;
-
 		}
 	}
 	
@@ -90,7 +92,7 @@ public class Player : NetworkBehaviour {
 		    
 		    //Get UI input and update it
 		    playerUI.UpdateInput(input.Pause.WasPressedThisFrame());
-		    playerUI.UpdateUI(playerHealth, playerCharacter);
+		    playerUI.UpdateUI(playerCharacter);
 		    
 		    //Get character item input and update it
 		    var characterItemInput = new CharacterItemInput {
@@ -114,5 +116,13 @@ public class Player : NetworkBehaviour {
 	    if (base.IsOwner) {
 		    cameraSpring.UpdateSpring(Time.deltaTime, cameraTarget.up);
 	    }
+    }
+
+    private void Die() {
+	    _inputActions.Disable();
+    }
+
+    private void Respawn() {
+	    
     }
 }
