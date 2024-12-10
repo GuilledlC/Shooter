@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerUI : MonoBehaviour {
 
 	[SerializeField] private Canvas canvas;
+	[SerializeField] private HealthBarUI healthBar;
 	[SerializeField] private StaminaBarUI staminaBar;
 	[SerializeField] private StanceUI stance;
 	[SerializeField] private SpeedUI speed;
@@ -16,9 +17,12 @@ public class PlayerUI : MonoBehaviour {
 			_requestPause = !_requestPause;
 	}
 
-	public void UpdateUI(PlayerCharacter playerCharacter) {
+	public void UpdateUI(PlayerHealth playerHealth, PlayerCharacter playerCharacter) {
 		canvas.enabled = !_requestPause;
 		
+		healthBar.UpdateHealth(
+			playerHealth.GetCurrentHealth(),
+			playerHealth.GetMaxHealth());
 		staminaBar.UpdateStamina(
 			playerCharacter.GetCharacterState().Stamina,
 			playerCharacter.GetMaxStamina());

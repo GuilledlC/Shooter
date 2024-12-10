@@ -6,13 +6,14 @@ using KinematicCharacterController;
 public class Player : NetworkBehaviour {
 
 	[SerializeField] private PlayerCharacter playerCharacter;
+	[SerializeField] private PlayerHealth playerHealth;
 	[SerializeField] private PlayerCamera playerCamera;
 	[SerializeField] private PlayerUI playerUI;
 	[SerializeField] private PlayerItemController playerItemController;
 	[SerializeField] private Transform cameraTarget;
 	[Space]
 	[SerializeField] private CameraSpring cameraSpring;
-
+	
 	private PlayerInputActions _inputActions;
 	private Camera mainCamera;
 	
@@ -30,6 +31,9 @@ public class Player : NetworkBehaviour {
 		
 		_inputActions.Enable();
 		cameraSpring.Initialize();
+		playerItemController.Initialize();
+		playerCharacter.Initialize();
+		playerHealth.Initialize();
 	}
 	
 	public override void OnStartClient() {
@@ -37,18 +41,19 @@ public class Player : NetworkBehaviour {
 		
 		_inputActions = new PlayerInputActions();
 		playerCamera.Initialize(cameraTarget);
-		playerItemController.Initialize(/*cameraTarget*/);
-		playerCharacter.Initialize();
 
 		if (base.IsOwner) {
 			StartCoroutine(SetupPlayer());
 		}
 		else {
-			//this.enabled = false;
-			playerUI.gameObject.SetActive(false);
+			_inputActions.Disable();
+			playerCamera.enabled = false;
+			cameraSpring.enabled = false;
+			playerItemController.enabled = false;
 			playerCharacter.enabled = false;
 			playerCharacter.gameObject.GetComponent<KinematicCharacterMotor>().enabled = false;
-			_inputActions.Disable();
+			playerUI.gameObject.SetActive(false);
+			
 		}
 	}
 	
@@ -84,7 +89,7 @@ public class Player : NetworkBehaviour {
 		    
 		    //Get UI input and update it
 		    playerUI.UpdateInput(input.Pause.WasPressedThisFrame());
-		    playerUI.UpdateUI(playerCharacter);
+		    playerUI.UpdateUI(playerHealth, playerCharacter);
 		    
 		    //Get character item input and update it
 		    var characterItemInput = new CharacterItemInput {
@@ -106,10 +111,7 @@ public class Player : NetworkBehaviour {
 	    playerCamera.UpdatePosition(cameraTarget);
 	    
 	    if (base.IsOwner) {
-		    var deltaTime = Time.deltaTime;
-		    var cameraTarget = playerCharacter.GetCameraTarget();
-		    
-		    cameraSpring.UpdateSpring(deltaTime, cameraTarget.up);
+		    cameraSpring.UpdateSpring(Time.deltaTime, cameraTarget.up);
 	    }
     }
 }

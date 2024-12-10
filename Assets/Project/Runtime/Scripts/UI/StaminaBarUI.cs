@@ -8,7 +8,6 @@ public class StaminaBarUI : MonoBehaviour {
 
 	[SerializeField] private Slider staminaSlider;
 	[SerializeField] private TMP_Text staminaValue;
-	[SerializeField] private TMP_Text speed;
 
 	public void UpdateStamina(float currentStamina, float maxStamina) {
 		staminaSlider.value = currentStamina / maxStamina;
