@@ -315,6 +315,7 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 					if (canSprint && hasStamina && !isInCoolDown) {
 						speed = sprintSpeed;
 						response = sprintResponse;
+						deltaStamina = -deltaTime;					//Tick stamina
 					}
 					else {
 						_state.Stance = Stance.Stand;
@@ -333,10 +334,6 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 				currentVelocity,
 				targetVelocity,
 				1 - Mathf.Exp(-response * deltaTime));
-			
-			if(currentVelocity.magnitude > 0 && _state.Stance is Stance.Sprint)
-				deltaStamina = -deltaTime;					//Tick stamina
-			
 		}
 		//If the player is in the air
 		else {

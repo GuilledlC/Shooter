@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1549022393446706702}
   - component: {fileID: 2728502550691400483}
   - component: {fileID: 3378516815150493260}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7478196755690744606}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3807796563084982856}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1316386998902998380}
   - component: {fileID: 4679088829736678707}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Stance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 6705546621220564533}
   - component: {fileID: 1971084939259456341}
   - component: {fileID: 3464012500258842805}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 2595936102962083236}
   - component: {fileID: 8409585547188594736}
   - component: {fileID: 4649988099381041578}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 6963360933569721235}
   - component: {fileID: 3751429176998165103}
   - component: {fileID: 9082523381654804505}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2161456955320766507}
   - component: {fileID: 2571131514354816656}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 4657055574571769647}
   - component: {fileID: 1603854078396880518}
   - component: {fileID: 2977896213175247959}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: 5247789220153298512}
   - component: {fileID: 5208631601714356535}
   - component: {fileID: 3866640477683988460}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Stamina Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -853,7 +853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4545179193034367300}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HoldPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -888,7 +888,7 @@ GameObject:
   - component: {fileID: 4584448562511321869}
   - component: {fileID: 2753106446851879893}
   - component: {fileID: 6302119199073568789}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -968,7 +968,7 @@ MonoBehaviour:
   MaxVelocityForLedgeSnap: 0
   MaxStableDenivelationAngle: 180
   InteractiveRigidbodyHandling: 1
-  RigidbodyInteractionType: 0
+  RigidbodyInteractionType: 1
   SimulatedCharacterMass: 1
   PreserveAttachedRigidbodyMomentum: 1
   HasPlanarConstraint: 0
@@ -1078,7 +1078,7 @@ GameObject:
   - component: {fileID: 6070321787213868988}
   - component: {fileID: 6428626103030021333}
   - component: {fileID: 4908571016481306597}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Stamina Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 1931058548653174042}
   - component: {fileID: 6030917336590966357}
   - component: {fileID: 3816440223783178064}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Speed Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1289,7 +1289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1975294089154300243}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AimPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1321,7 +1321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5558938259929394092}
   - component: {fileID: 1923519825929147380}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1372,7 +1372,7 @@ GameObject:
   - component: {fileID: 5658980158086681335}
   - component: {fileID: 2414424361686624510}
   - component: {fileID: 2630517896193142363}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Stance Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1508,7 +1508,7 @@ GameObject:
   - component: {fileID: 4864162199918158965}
   - component: {fileID: 5749548545575271058}
   - component: {fileID: 5866471298910797892}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Stamina Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1644,7 +1644,7 @@ GameObject:
   - component: {fileID: 4226914714370529236}
   - component: {fileID: 1074645174355384259}
   - component: {fileID: 6302086910044089450}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1735,7 +1735,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7881860434993233396}
   - component: {fileID: 7774897570470230403}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraSpring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1786,7 +1786,7 @@ GameObject:
   - component: {fileID: 8400256877515115216}
   - component: {fileID: 6400720726784680642}
   - component: {fileID: 4839471704732063712}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1907,7 +1907,7 @@ GameObject:
   - component: {fileID: 5837214442766105874}
   - component: {fileID: 624918450781218171}
   - component: {fileID: 9089767939273299964}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1982,7 +1982,7 @@ GameObject:
   - component: {fileID: 5790018032628412113}
   - component: {fileID: 7535780802943099790}
   - component: {fileID: 5353754857351835283}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2124,6 +2124,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 13e2f15e1adfa3c448df5eaa6f4bfa39,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

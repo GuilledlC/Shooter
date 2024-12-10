@@ -33,7 +33,7 @@ public class PickableWeapon : MonoBehaviour {
 	}
 
 	public virtual void Initialize() {
-		SetLayerRecursively(gameObject, LayerMask.NameToLayer("Default"));
+		SetLayerRecursively(gameObject, LayerMask.NameToLayer("ItemLayer"));
 		
 		enabled = true;
 		rigidbody.isKinematic = false;

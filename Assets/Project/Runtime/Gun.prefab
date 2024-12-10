@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8278003912724501204}
   - component: {fileID: 6034572138805725159}
   - component: {fileID: 3557576476462763374}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 520
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2613642233799672223}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,6 +379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 25e0e35f3770fea478348eb2eb668e6d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
