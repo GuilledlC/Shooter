@@ -141,11 +141,10 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 	public void Initialize() {
 		_state.Stance = Stance.Stand;
 		_state.Speed = 0;
-		_state.Stamina = maxStamina;
+		_state.Stamina = _currentStamina = maxStamina;;
 		_lastState = _state;
 		
 		_uncrouchOverlapResults = new Collider[5];
-		_currentStamina = maxStamina;
 		
 		motor.CharacterController = this;
 	}
@@ -316,7 +315,6 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 					if (canSprint && hasStamina && !isInCoolDown) {
 						speed = sprintSpeed;
 						response = sprintResponse;
-						deltaStamina = -deltaTime;					//Tick stamina
 					}
 					else {
 						_state.Stance = Stance.Stand;
@@ -335,6 +333,9 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 				currentVelocity,
 				targetVelocity,
 				1 - Mathf.Exp(-response * deltaTime));
+			
+			if(currentVelocity.magnitude > 0 && _state.Stance is Stance.Sprint)
+				deltaStamina = -deltaTime;					//Tick stamina
 			
 		}
 		//If the player is in the air
@@ -488,7 +489,8 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 			}
 			//Sprinting
 			else if (_requestedSprint) {
-				_state.Stance = Stance.Sprint;
+				if(_state.Speed > 0)
+					_state.Stance = Stance.Sprint;
 			}
 			
 		}
