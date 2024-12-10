@@ -40,11 +40,7 @@ public abstract class Weapon : NetworkBehaviour {
 
 		enabled = true;
 		transform.SetParent(player.GetPlayerCamera());
-		Debug.Log("The holdpoint is " + player.GetHoldPoint().localPosition);
-		Debug.Log("The grippoint is " + gripPoint.localPosition);
-		Debug.Log("The sum is " + (player.GetHoldPoint().localPosition - gripPoint.localPosition));
-		transform.localPosition = player.GetHoldPoint().localPosition - gripPoint.localPosition;
-		Debug.Log("The localposition is " + transform.localPosition);
+		transform.position = player.GetHoldPoint().position - gripPoint.position;
 		transform.localRotation = quaternion.identity;
 
 		playerHoldPoint = player.GetHoldPoint();
