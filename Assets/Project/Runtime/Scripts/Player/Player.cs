@@ -53,7 +53,8 @@ public class Player : NetworkBehaviour {
 			playerCharacter.enabled = false;
 			playerCharacter.gameObject.GetComponent<KinematicCharacterMotor>().enabled = false;
 			playerUI.gameObject.SetActive(false);
-			
+			playerHealth.enabled = false;
+
 		}
 	}
 	

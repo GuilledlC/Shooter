@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2359892000997337678}
   - component: {fileID: 2429964930915850229}
+  - component: {fileID: 850466300260663133}
+  - component: {fileID: 5676774353666522539}
   - component: {fileID: 3835075902522273939}
   - component: {fileID: 1807958698635721920}
   - component: {fileID: 8278003912724501204}
-  - component: {fileID: 850466300260663133}
   - component: {fileID: 6034572138805725159}
   - component: {fileID: 3557576476462763374}
   m_Layer: 8
@@ -89,6 +90,36 @@ MonoBehaviour:
   gunMechanismsSfx: {fileID: 0}
   switchWeaponSfx: {fileID: 0}
   emptyChamberSfx: {fileID: 0}
+--- !u!114 &850466300260663133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859743337909985153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb25f6afd1224d95b3c5fc684bd000dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 3835075902522273939}
+  collider: {fileID: 1807958698635721920}
+  pickupRange: {fileID: 8278003912724501204}
+  weapon: {fileID: 2429964930915850229}
+  destroyAfter: {fileID: 5676774353666522539}
+--- !u!114 &5676774353666522539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859743337909985153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975d27ba22a04954c9c2d79d11669cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfter: 90
 --- !u!54 &3835075902522273939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -161,22 +192,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &850466300260663133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859743337909985153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb25f6afd1224d95b3c5fc684bd000dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigidbody: {fileID: 3835075902522273939}
-  collider: {fileID: 1807958698635721920}
-  pickupRange: {fileID: 8278003912724501204}
-  weapon: {fileID: 2429964930915850229}
 --- !u!114 &6034572138805725159
 MonoBehaviour:
   m_ObjectHideFlags: 0
