@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Project/Guille/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/Scenes/Advanced Movement.unity
     guid: ba9faa3e269edff458547b09e5d41a42
+  - enabled: 1
+    path: Assets/Project/Scenes/MenuScene.unity
+    guid: c2029b3e5bfdd60499c9e4118e2bea36
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 30180fddfe121574b84061e4887bda32,
       type: 2}
