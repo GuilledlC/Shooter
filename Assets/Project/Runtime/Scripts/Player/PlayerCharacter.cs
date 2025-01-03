@@ -18,6 +18,7 @@ public struct CharacterState {
 	public bool Grounded;
 	public Stance Stance;
 	public float Speed;
+	public Vector3 Velocity;
 	public float Stamina;
 }
 
@@ -461,6 +462,7 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 		
 		//Update character state
 		_state.Speed = currentVelocity.magnitude; //Vector3.ProjectOnPlane(currentVelocity, motor.CharacterUp).magnitude;
+		_state.Velocity = transform.InverseTransformDirection(currentVelocity);
 		_state.Stamina = _currentStamina;
 
 	}
@@ -486,7 +488,7 @@ public class PlayerCharacter : NetworkBehaviour, ICharacterController {
 			}
 			//Sprinting
 			else if (_requestedSprint) {
-				if(_state.Speed > 0)
+				if(_state is { Speed: > 0, Velocity: { z: >= 0 } })
 					_state.Stance = Stance.Sprint;
 			}
 			
