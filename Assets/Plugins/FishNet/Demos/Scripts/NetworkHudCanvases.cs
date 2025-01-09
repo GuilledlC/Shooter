@@ -149,7 +149,7 @@ namespace FishNet.Example
             {
                 UpdateColor(LocalConnectionState.Stopped, ref _serverIndicator);
                 UpdateColor(LocalConnectionState.Stopped, ref _clientIndicator);
-                 _networkManager.ServerManager.OnServerConnectionState += ServerManager_OnServerConnectionState;
+                _networkManager.ServerManager.OnServerConnectionState += ServerManager_OnServerConnectionState;
                 _networkManager.ClientManager.OnClientConnectionState += ClientManager_OnClientConnectionState;
             }
 

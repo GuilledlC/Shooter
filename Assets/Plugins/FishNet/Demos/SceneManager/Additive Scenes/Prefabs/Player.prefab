@@ -379,7 +379,8 @@ MonoBehaviour:
   SerializedTransformProperties:
     Position: {x: 0, y: 20, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!114 &6767263130208162619
 MonoBehaviour:
   m_ObjectHideFlags: 0
