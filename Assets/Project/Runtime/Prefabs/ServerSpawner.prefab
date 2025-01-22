@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 3859743337909985153, guid: 2d56da81bd0a0f1448bc560855e60945, type: 3}
   - {fileID: 3859743337909985153, guid: 97be035cc6f1d854088adf96ed276188, type: 3}
   - {fileID: 3694358706640234048, guid: 43d7252fc1d0c9a4d93fd344312079c4, type: 3}
+  - {fileID: 2394238092576691556, guid: 587613a6efef65c468161ddfd4a9c41a, type: 3}
 --- !u!114 &8595645773820394352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,9 +98,10 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 65535
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 17957873940549180088
+  <AssetPathHash>k__BackingField: 9440167345705714972
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0

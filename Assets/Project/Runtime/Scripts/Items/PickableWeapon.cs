@@ -3,6 +3,8 @@ using FishNet.Component.Transforming;
 using UnityEngine;
 using FishNet.Object;
 
+[RequireComponent(typeof(NetworkObject))]
+[RequireComponent(typeof(NetworkTransform))]
 public class PickableWeapon : MonoBehaviour {
 
 	[Header("Basic information")]
@@ -64,6 +66,11 @@ public class PickableWeapon : MonoBehaviour {
 		// Update all children
 		foreach (Transform child in obj.transform)
 			SetLayerRecursively(child.gameObject, newLayer);
+	}
+
+
+	public Weapon GetWeapon() {
+		return weapon;
 	}
 	
 }

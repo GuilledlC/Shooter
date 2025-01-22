@@ -33,7 +33,7 @@ public class Player : NetworkBehaviour {
 		cameraSpring.Initialize();
 		playerItemController.Initialize();
 		playerCharacter.Initialize();
-		playerUI.Initialize(playerHealth);
+		playerUI.Initialize(playerHealth, playerItemController);
 		playerHealth.Initialize();
 
 		playerHealth.OnPlayerDeath += Die;
@@ -99,7 +99,7 @@ public class Player : NetworkBehaviour {
 			    Rotation = playerCamera.transform.rotation,
 			    Pickup = input.Pickup.WasPressedThisFrame(),
 			    Drop = input.Drop.WasPressedThisFrame(),
-			    Shoot = input.Shoot.IsPressed(),
+			    Shoot = input.Shoot.WasPressedThisFrame(),
 			    Aim = input.Aim.IsPressed()
 		    };
 		    playerItemController.UpdateInput(characterItemInput);

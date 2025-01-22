@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour {
 	[SerializeField] private StaminaBarUI staminaBar;
 	[SerializeField] private StanceUI stance;
 	[SerializeField] private SpeedUI speed;
+	[SerializeField] private InventoryUI inventory;
 
 	private bool _requestPause = false;
 
@@ -17,8 +18,9 @@ public class PlayerUI : MonoBehaviour {
 			_requestPause = !_requestPause;
 	}
 
-	public void Initialize(PlayerHealth playerHealth) {
+	public void Initialize(PlayerHealth playerHealth, PlayerItemController playerItemController) {
 		playerHealth.OnHealthChanged += healthBar.UpdateHealth;
+		playerItemController.OnWeaponChanged += inventory.UpdateWeapon;
 	}
 	
 	public void UpdateUI(PlayerCharacter playerCharacter) {

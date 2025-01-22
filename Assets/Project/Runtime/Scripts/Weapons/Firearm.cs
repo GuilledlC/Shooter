@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FishNet.Object;
+using UnityEngine;
 
 public enum ShootType {
 	Automatic,
@@ -80,6 +81,22 @@ public class Firearm : Weapon {
 		base.Initialize(player);
 		playerAimPoint = player.GetAimPoint();
 	}
+
+	public void EasyShoot() {
+		EasyShootServer();
+	}
+	
+	[ServerRpc]
+	private void EasyShootServer() {
+		Projectile bullet = Instantiate(projectilePrefab, muzzle.position, transform.rotation);
+		ServerManager.Spawn(bullet.gameObject);
+		bullet.Initialize();
+	}
+
+	[ObserversRpc]
+	private void EasyShootObserver() {
+		
+	}
 	
 	public void Aim() {
 		MoveAimPoint(playerAimPoint.localPosition);
@@ -91,11 +108,11 @@ public class Firearm : Weapon {
 
 	private Vector3 weaponVelocityInternal = Vector3.zero;
 	private void MoveAimPoint(Vector3 targetPoint) {
-		transform.localPosition = Vector3.SmoothDamp(
+		transform.localPosition = targetPoint; /*Vector3.SmoothDamp(
 			transform.localPosition,
 			targetPoint,
 			ref weaponVelocityInternal,
-			aimDelay);
+			aimDelay);*/
 		//weaponPoint.localPosition = Vector3.Lerp(weaponPoint.localPosition, targetPosition, timeToAim);
 	}
 	
@@ -119,7 +136,7 @@ public class Firearm : Weapon {
 		//Spawn all projectiles
 		for (int i = 0; i < projectilesPerBullet; i++) {
 			Vector3 shotDirection = GetShotDirectionWithinSpread();
-			Projectile newProjectile = Instantiate(projectilePrefab, muzzle.position, Quaternion.LookRotation(shotDirection));
+			//Projectile newProjectile = Instantiate(projectilePrefab, muzzle.position, Quaternion.LookRotation(shotDirection));
 			//newProjectile.Shoot(this); //DO more weapon specific velocity and such settings
 		}
 		

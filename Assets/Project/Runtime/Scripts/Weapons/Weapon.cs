@@ -5,11 +5,12 @@ using Unity.Mathematics;
 using UnityEngine;
 
 public enum WeaponSlot {
+	Fists,
 	Melee,
 	Sidearm,
 	Rifle,
 	Throwable,
-	Special
+	Misc
 }
 
 public abstract class Weapon : NetworkBehaviour {
@@ -24,10 +25,10 @@ public abstract class Weapon : NetworkBehaviour {
 
 	[Header("Visual")]
 	[SerializeField] protected Sprite weaponIcon;
-	[SerializeField] protected Sprite crosshair;
+	[SerializeField] protected Sprite weaponCrosshair;
 
 	[Header("Internal References")]
-	[SerializeField] protected GameObject weaponRoot;
+	//[SerializeField] protected GameObject weaponRoot;
 	[SerializeField] protected Transform gripPoint;
 	protected Transform playerHoldPoint;
 	
@@ -68,6 +69,24 @@ public abstract class Weapon : NetworkBehaviour {
 		// Update all children
 		foreach (Transform child in obj.transform)
 			SetLayerRecursively(child.gameObject, newLayer);
+	}
+	
+	
+	
+	public string GetWeaponName() {
+		return weaponName;
+	}
+	public string GetWeaponDescription() {
+		return weaponDescription;
+	}
+	public WeaponSlot GetWeaponSlot() {
+		return weaponSlot;
+	}
+	public Sprite GetWeaponIcon() {
+		return weaponIcon;
+	}
+	public Sprite GetWeaponCrosshair() {
+		return weaponCrosshair;
 	}
 	
 }

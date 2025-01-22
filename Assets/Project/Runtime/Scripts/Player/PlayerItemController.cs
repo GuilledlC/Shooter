@@ -1,4 +1,5 @@
 using FishNet.Component.Transforming;
+using System;
 using UnityEngine;
 using FishNet.Object;
 
@@ -58,9 +59,16 @@ public class PlayerItemController : NetworkBehaviour {
 	void Update() {
 		if (base.IsOwner) {
 			UpdateWeaponAim();
-		
+
+			if (_requestedShoot) {
+				if (_holdingWeapon) {
+					if (heldWeapon is Firearm firearm) {
+						firearm.EasyShoot();
+					}
+				}
+			}
 			//Pick up
-			if (_requestedPickup) {
+			else if (_requestedPickup) {
 				Physics.Raycast(playerCamera.position, playerCamera.forward, out RaycastHit hit,
 					pickUpDistance);
 
@@ -69,11 +77,13 @@ public class PlayerItemController : NetworkBehaviour {
 					if(_holdingWeapon)
 						DropItem();
 					PickupItem(item.GetComponent<NetworkObject>());
+					OnWeaponChanged?.Invoke(item.GetWeapon());
 				}
 			}
 			//Drop
 			else if(_requestedDrop) {
 				DropItem();
+				OnWeaponChanged?.Invoke(null);
 			}
 		}
 	}
@@ -124,4 +134,7 @@ public class PlayerItemController : NetworkBehaviour {
 		_holdingWeapon = false;
 	}
 	
+	
+	public event Action<Weapon> OnWeaponChanged;
+
 }
